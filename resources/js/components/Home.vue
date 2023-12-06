@@ -53,7 +53,7 @@
                         <h2
                             class="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
                         >
-                            profile
+                            Profile
                         </h2>
                         <div class="flex flex-col space-y-2">
                             <router-link

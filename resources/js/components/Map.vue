@@ -128,23 +128,55 @@
                 >
                     <tr
                         class="hover:bg-gray-50"
-                        v-for="(member, index) in memList"
+                        v-for="(map, index) in mapList"
                         :key="index"
                     >
-                    <td class="px-6 py-4">
+                        <td class="px-6 py-4">
                             <div class="relative h-10 w-10">
-                            <img
-                                class="h-full w-full rounded-full object-cover object-center"
-                                
-                            />
+                                <img
+                                    class="h-full w-full rounded-full object-cover object-center"
+                                    :src="path + map.pic"
+                                />
                             </div>
                         </td>
-                        <td class="px-6 py-4"></td>
-                        <td class="px-6 py-4"></td>
-                        <td class="px-6 py-4"></td>
-                        <td class="px-6 py-4"></td>
-                        <td class="px-6 py-4"></td>
-                        <td class="px-6 py-4"></td>
+                        <td class="px-6 py-4">
+                            <img
+                                :src="icon + map.icon"
+                                class="h-5 w-5 flex-shrink-0 rounded-full"
+                            />
+                        </td>
+                        <td class="px-6 py-4">{{ map.title }}</td>
+                        <td class="px-6 py-4">{{ map.lat.substring(0,7) }}...</td>
+                        <td class="px-6 py-4">{{ map.lon.substring(0,7) }}...</td>
+                        <td class="px-6 py-4">
+                            <div
+                                class="flex gap-4"
+                                @click="detailMap(map.id)"
+                            >
+                                <box-icon
+                                    name="windows"
+                                    color="#22d3ee"
+                                    size="sm"
+                                    animation="tada-hover"
+                                    class="cursor-pointer"
+                                ></box-icon>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div
+                                class="flex gap-4"
+                                @click="linkMap(map.gmap)"
+                            >
+                                <box-icon
+                                    name="map"
+                                    type="solid"
+                                    color="#fb7185"
+                                    size="sm"
+                                    animation="tada-hover"
+                                    class="cursor-pointer"
+                                ></box-icon>
+                            </div>
+                        </td>
                         <td
                             class="flex gap-3 px-6 py-4 font-normal text-gray-900"
                         >
@@ -161,20 +193,32 @@
                             </div>
                             <div class="text-sm">
                                 <div class="font-medium text-gray-700">
-                                    {{ member.name }} {{ member.surname }}
+                                    {{ map.created_by }}
                                 </div>
                                 <div class="text-gray-400">
-                                    {{ member.email }}
+                                    {{ map.email }}
                                 </div>
                             </div>
-                        </td>                  
+                        </td>
                         <td class="px-6 py-4">
-                            {{ moment(member.start).format("L") }}
-                        </td>                     
-                        <td class="px-6 py-4">
+                            {{ moment(map.created_at).format("L") }}
+                        </td>
+                        <td class="flex px-6 py-4">
+                            <div
+                                class="flex justify-end gap-4 pr-2"
+                                @click="editMap(map.id)"
+                            >
+                                <box-icon
+                                    name="cog"
+                                    color="#94a3b8"
+                                    size="sm"
+                                    animation="tada-hover"
+                                    class="cursor-pointer"
+                                ></box-icon>
+                            </div>
                             <div
                                 class="flex justify-end gap-4"
-                                @click="delMem(member.id, index)"
+                                @click="delMap(map.id, index)"
                             >
                                 <box-icon
                                     name="trash"
@@ -194,7 +238,8 @@
             <router-link to="/addMap"
                 ><button
                     class="bg-green-200 hover:bg-green-300 shadow-lg rounded-md p-2 text-sm text-gray-700"
-                >เพิ่มข้อมูล
+                >
+                    เพิ่มข้อมูล
                 </button></router-link
             >
         </div>
@@ -210,26 +255,49 @@ moment.locale("th");
 
 export default {
     mounted() {
-        this.getMem();
+        this.getMap();
+        this.getType();
     },
     data() {
         return {
-            memList: "",
+            path: "/storage/maps/thumbnails/",
+            icon: "img/icon/",
+            mapList: "",
+            typeList: "",
             moment: moment,
         };
     },
     methods: {
-        getMem() {
+        getMap() {
             axios
-                .get("/api/member")
+                .get("/api/map")
                 .then((response) => {
-                    this.memList = response.data;
+                    this.mapList = response.data;
                 })
                 .catch((err) => {
                     console.log(err);
                 });
         },
-        delMem(id, index) {
+        getType() {
+            axios
+                .get("/api/type")
+                .then((response) => {
+                    this.typeList = response.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        editMap(id){
+            this.$router.push('/editMap/' + id)
+        },
+        detailMap(id){
+            window.open('/mapDetail/' + id, "_blank");
+        },
+        linkMap(link){
+            window.open(link, "_blank");
+        },
+        delMap(id, index) {
             Swal.fire({
                 title: "ต้องการลบข้อมูล?",
                 text: "ยืนยันการลบข้อมูลหรือไม่",
@@ -241,14 +309,14 @@ export default {
             }).then((result) => {
                 if (result.isConfirmed) {
                     axios
-                        .delete("/api/member/" + id)
+                        .delete("/api/map/" + id)
                         .then((response) => {
                             //console.log(res);
                         })
                         .catch((err) => {
                             //console.log(err);
                         });
-                    this.memList.splice(index, 1);
+                    this.mapList.splice(index, 1);
                     Swal.fire("ลบข้อมูล!", "ลบข้อมูลเรียบร้อย", "success");
                 }
             });

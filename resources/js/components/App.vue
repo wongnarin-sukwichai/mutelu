@@ -173,7 +173,7 @@
         </nav>
         <!-- Replace with your content -->
         <main>
-            <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8" v-if="!user">
+            <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
                 <img :src="banner" class="p-2 shadow-lg" />
             </div>
 

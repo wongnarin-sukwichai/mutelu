@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('records', function (Blueprint $table) {
             $table->id();
             $table->integer('ref_id')->comment('อ้าง ID Map บันทึกสถิติเลข');
-            $table->integer('two');
-            $table->integer('three');
+            $table->integer('type');
+            $table->integer('number');
             $table->integer('uid');
             $table->string('created_by');
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }

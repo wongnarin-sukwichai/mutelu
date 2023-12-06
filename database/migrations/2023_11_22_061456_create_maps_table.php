@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('pic')->nullable();
             $table->integer('type');
+            $table->string('icon')->nullable();
             $table->string('title');        
             $table->string('lat');
             $table->string('lon');

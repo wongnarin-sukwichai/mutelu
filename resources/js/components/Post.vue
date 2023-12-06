@@ -53,6 +53,12 @@
                             scope="col"
                             class="px-6 py-4 font-medium text-gray-900"
                         >
+                            รายละเอียด
+                        </th>
+                        <th
+                            scope="col"
+                            class="px-6 py-4 font-medium text-gray-900"
+                        >
                             ผู้โพสต์
                         </th>
                         <th
@@ -77,14 +83,25 @@
                     >
                         <td class="px-6 py-4">
                             <div class="relative h-10 w-10">
-                            <img
-                                class="h-full w-full rounded-full object-cover object-center"
-                                :src="path + post.pic"
-                            />
+                                <img
+                                    class="h-full w-full rounded-full object-cover object-center"
+                                    :src="path + post.pic"
+                                />
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                           {{ post.title }}
+                            {{ post.title }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex gap-4" @click="detailPost(map.id)">
+                                <box-icon
+                                    name="windows"
+                                    color="#22d3ee"
+                                    size="sm"
+                                    animation="tada-hover"
+                                    class="cursor-pointer"
+                                ></box-icon>
+                            </div>
                         </td>
                         <td
                             class="flex gap-3 px-6 py-4 font-normal text-gray-900"
@@ -96,7 +113,9 @@
                                     size="lg"
                                     class="pr-2"
                                 ></box-icon>
-                              
+                                <span
+                                    class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"
+                                ></span>
                             </div>
                             <div class="text-sm">
                                 <div class="font-medium text-gray-700">
@@ -110,7 +129,19 @@
                         <td class="px-6 py-4">
                             {{ moment(post.created_at).format("L") }}
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="flex px-6 py-4">
+                            <div
+                                class="flex justify-end gap-4 pr-2"
+                                @click="editPost(post.id)"
+                            >
+                                <box-icon
+                                    name="cog"
+                                    color="#94a3b8"
+                                    size="sm"
+                                    animation="tada-hover"
+                                    class="cursor-pointer"
+                                ></box-icon>
+                            </div>
                             <div
                                 class="flex justify-end gap-4"
                                 @click="delPost(post.id, index)"
@@ -168,6 +199,9 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 });
+        },
+        editPost(id){
+            this.$router.push('/editPost/' + id)
         },
         delPost(id, index) {
             Swal.fire({

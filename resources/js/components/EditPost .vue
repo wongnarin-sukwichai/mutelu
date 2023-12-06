@@ -1,18 +1,18 @@
 <template>
     <div class="justify-center p-8">
-        <form @submit.prevent="sendMap()">
+        <form @submit.prevent="updatePost()">
             <div class="flex grid grid-cols-4">
                 <div class="px-4 py-5 sm:px-6 col-span-2">
                     <h3 class="text-lg leading-6 font-medium text-gray-700">
                         <box-icon
-                            name="map"
+                            name="cog"
                             color="gray"
                             size="lg"
                             class="pr-2"
                         ></box-icon
-                        >แผนที่
+                        >แก้ไขบทความ
                     </h3>
-                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Map</p>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Edit Post</p>
                 </div>
             </div>
 
@@ -76,90 +76,13 @@
                         <dt
                             class="text-sm font-medium text-gray-500 text-right"
                         >
-                            ประเภท
-                        </dt>
-                        <div class="relative mt-1">
-                            <button
-                                type="button"
-                                class="relative w-full cursor-pointer rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-300 sm:text-sm sm:leading-6"
-                                aria-haspopup="listbox"
-                                aria-expanded="true"
-                                aria-labelledby="listbox-label"
-                                @click="selType = !selType"
-                            >
-                                <span class="flex items-center">
-                                    <img
-                                        :src="path + iconType"
-                                        alt=""
-                                        class="h-5 w-5 flex-shrink-0 rounded-full"
-                                    />
-                                    <span class="ml-3 block truncate">
-                                        {{ callType }}
-                                    </span>
-                                </span>
-                                <span
-                                    class="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2"
-                                >
-                                    <svg
-                                        class="h-5 w-5 text-gray-400"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            fill-rule="evenodd"
-                                            d="M10 3a.75.75 0 01.55.24l3.25 3.5a.75.75 0 11-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 01-1.1-1.02l3.25-3.5A.75.75 0 0110 3zm-3.76 9.2a.75.75 0 011.06.04l2.7 2.908 2.7-2.908a.75.75 0 111.1 1.02l-3.25 3.5a.75.75 0 01-1.1 0l-3.25-3.5a.75.75 0 01.04-1.06z"
-                                            clip-rule="evenodd"
-                                        />
-                                    </svg>
-                                </span>
-                            </button>
-
-                            <!-- Start Selected -->
-                            <transition name="fade" mode="out-in">
-                                <ul
-                                    type="button"
-                                    class="relative w-full cursor-pointer rounded-md bg-white mt-2 py-1.5 pl-3 pr-3 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-300 sm:text-sm sm:leading-6"
-                                    aria-haspopup="listbox"
-                                    aria-expanded="true"
-                                    aria-labelledby="listbox-label"
-                                    v-if="selType"
-                                >
-                                    <li
-                                        class="text-gray-900 relative cursor-pointer select-none py-2 pl-3 pr-9 hover:text-white hover:bg-indigo-300"
-                                        id="listbox-option-0"
-                                        role="option"
-                                        v-for="(type, index) in showType"
-                                        :key="index"
-                                        @click="pickType(index)"
-                                    >
-                                        <div class="flex items-center">
-                                            <img
-                                                :src="path + type.pic"
-                                                class="h-5 w-5 flex-shrink-0 rounded-full"
-                                            />
-                                            <div class="ml-3 block truncate">
-                                                {{ type.title }}
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </transition>
-                        </div>
-                    </div>
-                    <div
-                        class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-                    >
-                        <dt
-                            class="text-sm font-medium text-gray-500 text-right"
-                        >
-                            ชื่อสถานที่
+                            ชื่อเรื่อง
                         </dt>
                         <input
                             type="text"
                             class="p-2 block w-full rounded-md border py-1.5 text-gray-900 shadow-sm sm:text-sm hover:ring-2 hover:ring-blue-400 hover:ring-inset outline-0"
                             placeholder="** ไม่เกิน 255 อักขระ"
-                            v-model="dataMap.title"
+                            v-model="dataPost.title"
                             ref="title"
                             :class="
                                 this.chkLength === false
@@ -176,51 +99,6 @@
                                 ** ข้อความเกิน 200 อักขระ
                             </div>
                         </transition>
-                    </div>               
-                    <div
-                        class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-                    >
-                        <dt
-                            class="text-sm font-medium text-gray-500 text-right"
-                        >
-                            ละติจูด
-                        </dt>
-                        <input
-                            type="text"
-                            class="p-2 block w-full rounded-md border py-1.5 text-gray-900 shadow-sm sm:text-sm hover:ring-2 hover:ring-blue-400 hover:ring-inset outline-0"
-                            v-model="dataMap.lat"
-                            required
-                        />
-                    </div>
-                    <div
-                        class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-                    >
-                        <dt
-                            class="text-sm font-medium text-gray-500 text-right"
-                        >
-                            ลองติจูด
-                        </dt>
-                        <input
-                            type="text"
-                            class="p-2 block w-full rounded-md border py-1.5 text-gray-900 shadow-sm sm:text-sm hover:ring-2 hover:ring-blue-400 hover:ring-inset outline-0"
-                            v-model="dataMap.lon"
-                            required
-                        />
-                    </div>
-                    <div
-                        class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-                    >
-                        <dt
-                            class="text-sm font-medium text-gray-500 text-right"
-                        >
-                            ลิ้งค์ Google Map
-                        </dt>
-                        <input
-                            type="text"
-                            class="p-2 block w-full rounded-md border py-1.5 text-gray-900 shadow-sm sm:text-sm hover:ring-2 hover:ring-blue-400 hover:ring-inset outline-0"
-                            v-model="dataMap.gmap"
-                            required
-                        />
                     </div>
                     <div class="px-4 py-2 grid-cols-4">
                         <dt
@@ -231,7 +109,7 @@
                         <ckeditor
                             class="max-height-48"
                             :editor="editor"
-                            v-model="dataMap.detail"
+                            v-model="dataPost.detail"
                             :config="editorConfig"
                         ></ckeditor>
                     </div>
@@ -239,7 +117,7 @@
             </div>
 
             <div class="flex justify-end mt-4">
-                <router-link to="/map" class="mr-2"
+                <router-link to="/post" class="mr-2"
                     ><button
                         class="bg-gray-200 hover:bg-gray-300 shadow-lg rounded-md p-2 text-sm text-gray-700"
                     >
@@ -262,10 +140,11 @@
 import "boxicons";
 import Swal from "sweetalert2";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import axios from "axios";
 
 export default {
     mounted() {
-        this.getType();
+        this.getPost();
     },
     data() {
         return {
@@ -273,46 +152,32 @@ export default {
             file: null,
             chkLength: true,
             chkPic: true,
-            dataMap: {
+            dataPost: {
+                id: this.$route.params.id,
                 pic: "",
-                type: "",
-                icon: "",
-                call: "",
                 title: "",
-                lat: "",
-                lon: "",
-                gmap: "",
                 detail: "",
             },
             editor: ClassicEditor,
             editorConfig: {
                 // The configuration of the editor.
             },
-            showType: '',
-            selType: false,
-            path: "/img/icon/",
-            idType: "1",
-            iconType: "temple.png",
-            callType: "วัด",
         };
     },
     methods: {
-        getType() {
-            axios.get('/api/type').then((Response) => {
-                this.showType = Response.data
-            }) .catch((err) => {
-                console.log(err)
-            })
+        getPost() {
+            axios
+                .get("/api/post/" + this.$route.params.id)
+                .then((response) => {
+                    this.previewImage = "/storage/posts/" + response.data.pic;
+                    this.dataPost.pic = response.data.pic;
+                    this.dataPost.title = response.data.title;
+                    this.dataPost.detail = response.data.detail;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
-        
-        pickType(code) {
-            this.selType = false;
-
-            this.idType = this.showType[code].id;
-            this.iconType = this.showType[code].pic;
-            this.callType = this.showType[code].title;        
-        },
-
         resetFile() {
             this.$refs.fileInput.value = null; //clear ช่อง choose
             this.previewImage = "";
@@ -339,14 +204,14 @@ export default {
             }
         },
 
-        async sendMap() {
+        async updatePost() {
             if (
-                this.dataMap.title != null &&
-                this.dataMap.title.length > 255
+                this.dataPost.title != null &&
+                this.dataPost.title.length > 255
             ) {
                 this.$refs.title.focus();
                 this.chkLength = false;
-            } else if (this.file == null) {
+            } else if (this.previewImage == null) {
                 this.chkPic = false;
             } else {
                 if (this.file != null) {
@@ -354,18 +219,15 @@ export default {
                     formData.append("file", this.file[0]);
 
                     try {
-                        await this.$store.dispatch("uploadPicMap", formData);
+                        await this.$store.dispatch("uploadPicPost", formData);
                     } catch (err) {
                         console.log(err);
                     }
-                    this.dataMap.pic = this.$store.getters.getPicName;
-                    this.dataMap.type = this.idType;
-                    this.dataMap.icon = this.iconType;
-                    this.dataMap.call = this.callType;
+                    this.dataPost.pic = this.$store.getters.getPicName;
                 }
 
                 try {
-                    await this.$store.dispatch("storeMap", this.dataMap);
+                    await this.$store.dispatch("updatePost", this.dataPost);
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
@@ -373,7 +235,7 @@ export default {
                         showConfirmButton: false,
                         timer: 1500,
                     });
-                    this.$router.push({ name: "map" });
+                    this.$router.push({ name: "post" });
                 } catch (err) {
                     console.log(err);
                 }

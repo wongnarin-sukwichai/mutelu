@@ -1,54 +1,9 @@
 <template>
-    <transition name="slide-fade">
-        <div v-if="user">
-            <div class="bg-lime-400 bg-opacity-5 text-center py-4 lg:px-4">
-                <div
-                    class="p-2 bg-lime-600 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
-                    role="alert"
-                >
-                    <span
-                        class="flex rounded-full bg-lime-500 uppercase px-2 py-1 text-xs font-bold mr-3"
-                        ><i class="fas fa-check"></i
-                    ></span>
-                    <span class="mr-2 text-left flex-auto text-white"
-                        >ยินดีต้อนรับสมาชิกเข้าสู่ระบบ</span
-                    >
-                </div>
-            </div>
-
-            <div class="w-full justify-center mt-8">
-                <div
-                    class="box-border h-16 w-full border-4 border-gray-300 border-dashed hover:border-gray-400 cursor-pointer"
-                >
-                    <router-link
-                        to="/map"
-                        class="flex justify-center p-4 text-gray-500 font-semibold"
-                    >
-                        <i class="fas fa-map pr-2"></i>ไปยังแผนที่
-                    </router-link>
-                </div>
-            </div>
-
-            <div class="w-full justify-center mt-8">
-                <div
-                    class="box-border h-16 w-full border-4 border-gray-300 border-dashed hover:border-gray-400 cursor-pointer"
-                >
-                    <router-link
-                        to="/home"
-                        class="flex justify-center p-4 text-gray-500 font-semibold"
-                    >
-                        <i class="fas fa-house-lock pr-2"></i>ไปยังระบบหลังบ้าน
-                    </router-link>
-                </div>
-            </div>
-        </div>
-    </transition>
-
     <div class="bg-white rounded-lg">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <!-- Map Detail -->
             <center>
-                <div class="google-maps">
+                <!-- <div class="google-maps">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d61288.662905121535!2d103.249047!3d16.243998!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3122a6a4f3069f8b%3A0xf02b541f28931c0!2z4Lih4Lir4Liy4Lin4Li04LiX4Lii4Liy4Lil4Lix4Lii4Lih4Lir4Liy4Liq4Liy4Lij4LiE4Liy4Lih!5e0!3m2!1sth!2sth!4v1689667666621!5m2!1sth!2sth"
                         width="1200"
@@ -58,8 +13,24 @@
                         loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"
                     ></iframe>
-                </div>
+                </div> -->
             </center>
+
+            <GoogleMap
+                api-key="AIzaSyCTTZZ1n55bBuMNrWNSBltniL1nsQChTHs"
+                style="width: 100%; height: 500px"
+                :center="center"
+                :zoom="10"
+            >
+                <InfoWindow
+                    :options="{ position: center, content: 'Hello World!' }"
+                />
+                <InfoWindow
+                    :options="{ position: { lat: center.lat, lng: 150.8 } }"
+                >
+                    Content passed through slot
+                </InfoWindow>
+            </GoogleMap>
 
             <!-- Post -->
             <div
@@ -67,359 +38,67 @@
             >
                 <article
                     class="flex max-w-xl flex-col items-start justify-between"
+                    v-for="(map, index) in mapList"
+                    :key="index"
                 >
                     <div
                         class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
                     >
                         <img
-                            src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg"
-                            alt="Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant."
-                            class="h-full w-full object-cover object-center"
+                            :src="mapPath + map.pic"
+                            class="h-full w-full object-cover object-center cursor-pointer hover:scale-110"
+                            @click="mapDetail(map.id)"
                         />
                     </div>
                     <div class="flex items-center gap-x-4 text-xs mt-4">
-                        <time datetime="2020-03-16" class="text-gray-500"
-                            >Mar 16, 2020</time
-                        >
-                        <a
-                            href="#"
-                            class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                            >Marketing</a
+                        <span
+                            class="flex rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+                            ><box-icon
+                                type="solid"
+                                name="map"
+                                color="#cbd5e1"
+                            ></box-icon
+                            ><font class="p-1.5">แผนที่</font></span
                         >
                     </div>
                     <div class="group relative">
                         <h3
                             class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
                         >
-                            <a href="#">
-                                <span class="absolute inset-0"></span>
-                                Boost your conversion rate
-                            </a>
+                            <span
+                                class="cursor-pointer"
+                                @click="mapDetail(map.id)"
+                            >
+                                {{ map.title }}
+                            </span>
                         </h3>
                         <p
-                            class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600"
+                            class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600 indent-4"
                         >
-                            Illo sint voluptas. Error voluptates culpa eligendi.
-                            Hic vel totam vitae illo. Non aliquid explicabo
-                            necessitatibus unde. Sed exercitationem placeat
-                            consectetur nulla deserunt vel. Iusto corrupti
-                            dicta.
+                            {{ removeTag(map.detail) }}
                         </p>
                     </div>
                     <div class="relative mt-8 flex items-center gap-x-4">
-                        <img
-                            src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                            class="h-10 w-10 rounded-full bg-gray-50"
-                        />
+                        <box-icon
+                            name="user"
+                            color="#cbd5e1"
+                            size="md"
+                        ></box-icon>
                         <div class="text-sm leading-6">
                             <p class="font-semibold text-gray-900">
-                                <a href="#">
-                                    <span class="absolute inset-0"></span>
-                                    Michael Foster
-                                </a>
-                            </p>
-                            <p class="text-gray-600">Co-Founder / CTO</p>
-                        </div>
-                    </div>
-                </article>
-
-                <article
-                    class="flex max-w-xl flex-col items-start justify-between"
-                >
-                    <div
-                        class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
-                    >
-                        <img
-                            src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg"
-                            alt="Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant."
-                            class="h-full w-full object-cover object-center"
-                        />
-                    </div>
-                    <div class="flex items-center gap-x-4 text-xs mt-4">
-                        <time datetime="2020-03-16" class="text-gray-500"
-                            >Mar 16, 2020</time
-                        >
-                        <a
-                            href="#"
-                            class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                            >Marketing</a
-                        >
-                    </div>
-                    <div class="group relative">
-                        <h3
-                            class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
-                        >
-                            <a href="#">
                                 <span class="absolute inset-0"></span>
-                                Boost your conversion rate
-                            </a>
-                        </h3>
-                        <p
-                            class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600"
-                        >
-                            Illo sint voluptas. Error voluptates culpa eligendi.
-                            Hic vel totam vitae illo. Non aliquid explicabo
-                            necessitatibus unde. Sed exercitationem placeat
-                            consectetur nulla deserunt vel. Iusto corrupti
-                            dicta.
-                        </p>
-                    </div>
-                    <div class="relative mt-8 flex items-center gap-x-4">
-                        <img
-                            src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                            class="h-10 w-10 rounded-full bg-gray-50"
-                        />
-                        <div class="text-sm leading-6">
-                            <p class="font-semibold text-gray-900">
-                                <a href="#">
-                                    <span class="absolute inset-0"></span>
-                                    Michael Foster
-                                </a>
+                                {{ map.created_by }}
                             </p>
-                            <p class="text-gray-600">Co-Founder / CTO</p>
+                            <p class="text-gray-400">
+                                {{
+                                    moment(map.created_at)
+                                        .add(543, "years")
+                                        .format("LL")
+                                }}
+                            </p>
                         </div>
                     </div>
                 </article>
-
-                <article
-                    class="flex max-w-xl flex-col items-start justify-between"
-                >
-                    <div
-                        class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
-                    >
-                        <img
-                            src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg"
-                            alt="Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant."
-                            class="h-full w-full object-cover object-center"
-                        />
-                    </div>
-                    <div class="flex items-center gap-x-4 text-xs mt-4">
-                        <time datetime="2020-03-16" class="text-gray-500"
-                            >Mar 16, 2020</time
-                        >
-                        <a
-                            href="#"
-                            class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                            >Marketing</a
-                        >
-                    </div>
-                    <div class="group relative">
-                        <h3
-                            class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
-                        >
-                            <a href="#">
-                                <span class="absolute inset-0"></span>
-                                Boost your conversion rate
-                            </a>
-                        </h3>
-                        <p
-                            class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600"
-                        >
-                            Illo sint voluptas. Error voluptates culpa eligendi.
-                            Hic vel totam vitae illo. Non aliquid explicabo
-                            necessitatibus unde. Sed exercitationem placeat
-                            consectetur nulla deserunt vel. Iusto corrupti
-                            dicta.
-                        </p>
-                    </div>
-                    <div class="relative mt-8 flex items-center gap-x-4">
-                        <img
-                            src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                            class="h-10 w-10 rounded-full bg-gray-50"
-                        />
-                        <div class="text-sm leading-6">
-                            <p class="font-semibold text-gray-900">
-                                <a href="#">
-                                    <span class="absolute inset-0"></span>
-                                    Michael Foster
-                                </a>
-                            </p>
-                            <p class="text-gray-600">Co-Founder / CTO</p>
-                        </div>
-                    </div>
-                </article>
-
-                <article
-                    class="flex max-w-xl flex-col items-start justify-between"
-                >
-                    <div
-                        class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
-                    >
-                        <img
-                            src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg"
-                            alt="Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant."
-                            class="h-full w-full object-cover object-center"
-                        />
-                    </div>
-                    <div class="flex items-center gap-x-4 text-xs mt-4">
-                        <time datetime="2020-03-16" class="text-gray-500"
-                            >Mar 16, 2020</time
-                        >
-                        <a
-                            href="#"
-                            class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                            >Marketing</a
-                        >
-                    </div>
-                    <div class="group relative">
-                        <h3
-                            class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
-                        >
-                            <a href="#">
-                                <span class="absolute inset-0"></span>
-                                Boost your conversion rate
-                            </a>
-                        </h3>
-                        <p
-                            class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600"
-                        >
-                            Illo sint voluptas. Error voluptates culpa eligendi.
-                            Hic vel totam vitae illo. Non aliquid explicabo
-                            necessitatibus unde. Sed exercitationem placeat
-                            consectetur nulla deserunt vel. Iusto corrupti
-                            dicta.
-                        </p>
-                    </div>
-                    <div class="relative mt-8 flex items-center gap-x-4">
-                        <img
-                            src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                            class="h-10 w-10 rounded-full bg-gray-50"
-                        />
-                        <div class="text-sm leading-6">
-                            <p class="font-semibold text-gray-900">
-                                <a href="#">
-                                    <span class="absolute inset-0"></span>
-                                    Michael Foster
-                                </a>
-                            </p>
-                            <p class="text-gray-600">Co-Founder / CTO</p>
-                        </div>
-                    </div>
-                </article>
-
-                <article
-                    class="flex max-w-xl flex-col items-start justify-between"
-                >
-                    <div
-                        class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
-                    >
-                        <img
-                            src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg"
-                            alt="Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant."
-                            class="h-full w-full object-cover object-center"
-                        />
-                    </div>
-                    <div class="flex items-center gap-x-4 text-xs mt-4">
-                        <time datetime="2020-03-16" class="text-gray-500"
-                            >Mar 16, 2020</time
-                        >
-                        <a
-                            href="#"
-                            class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                            >Marketing</a
-                        >
-                    </div>
-                    <div class="group relative">
-                        <h3
-                            class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
-                        >
-                            <a href="#">
-                                <span class="absolute inset-0"></span>
-                                Boost your conversion rate
-                            </a>
-                        </h3>
-                        <p
-                            class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600"
-                        >
-                            Illo sint voluptas. Error voluptates culpa eligendi.
-                            Hic vel totam vitae illo. Non aliquid explicabo
-                            necessitatibus unde. Sed exercitationem placeat
-                            consectetur nulla deserunt vel. Iusto corrupti
-                            dicta.
-                        </p>
-                    </div>
-                    <div class="relative mt-8 flex items-center gap-x-4">
-                        <img
-                            src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                            class="h-10 w-10 rounded-full bg-gray-50"
-                        />
-                        <div class="text-sm leading-6">
-                            <p class="font-semibold text-gray-900">
-                                <a href="#">
-                                    <span class="absolute inset-0"></span>
-                                    Michael Foster
-                                </a>
-                            </p>
-                            <p class="text-gray-600">Co-Founder / CTO</p>
-                        </div>
-                    </div>
-                </article>
-
-                <article
-                    class="flex max-w-xl flex-col items-start justify-between"
-                >
-                    <div
-                        class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
-                    >
-                        <img
-                            src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg"
-                            alt="Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant."
-                            class="h-full w-full object-cover object-center"
-                        />
-                    </div>
-                    <div class="flex items-center gap-x-4 text-xs mt-4">
-                        <time datetime="2020-03-16" class="text-gray-500"
-                            >Mar 16, 2020</time
-                        >
-                        <a
-                            href="#"
-                            class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                            >Marketing</a
-                        >
-                    </div>
-                    <div class="group relative">
-                        <h3
-                            class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
-                        >
-                            <a href="#">
-                                <span class="absolute inset-0"></span>
-                                Boost your conversion rate
-                            </a>
-                        </h3>
-                        <p
-                            class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600"
-                        >
-                            Illo sint voluptas. Error voluptates culpa eligendi.
-                            Hic vel totam vitae illo. Non aliquid explicabo
-                            necessitatibus unde. Sed exercitationem placeat
-                            consectetur nulla deserunt vel. Iusto corrupti
-                            dicta.
-                        </p>
-                    </div>
-                    <div class="relative mt-8 flex items-center gap-x-4">
-                        <img
-                            src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                            class="h-10 w-10 rounded-full bg-gray-50"
-                        />
-                        <div class="text-sm leading-6">
-                            <p class="font-semibold text-gray-900">
-                                <a href="#">
-                                    <span class="absolute inset-0"></span>
-                                    Michael Foster
-                                </a>
-                            </p>
-                            <p class="text-gray-600">Co-Founder / CTO</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- More posts... -->
             </div>
 
             <!-- Category -->
@@ -429,75 +108,84 @@
                         เรื่องราวความเชื่อ/ภูมิปัญญา/อาถรรพ์
                     </h2>
                     <h2
-                        class="justify-end text-blue-500 cursor-pointer hover:text-blue-600"
+                        class="flex justify-end text-blue-500 cursor-pointer hover:text-blue-600"
                     >
-                        อ่านทั้งหมด <i class="fas fa-angles-right"></i>
+                        อ่านทั้งหมด
+                        <box-icon
+                            name="chevrons-right"
+                            color="#3b82f6"
+                            animation="fade-right-hover"
+                        ></box-icon>
                     </h2>
                 </div>
 
+                <!-- Post -->
                 <div
-                    class="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0"
+                    class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-gray-200 lg:mx-0 lg:max-w-none lg:grid-cols-3"
                 >
-                    <div class="group relative">
+                    <article
+                        class="flex max-w-xl flex-col items-start justify-between"
+                        v-for="(post, index) in postList"
+                        :key="index"
+                    >
                         <div
                             class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
                         >
                             <img
-                                src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg"
-                                alt="Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug."
-                                class="h-full w-full object-cover object-center"
+                                :src="postPath + post.pic"
+                                class="h-full w-full object-cover object-center cursor-pointer hover:scale-110"
+                                @click="postDetail(post.id)"
                             />
                         </div>
-                        <h3 class="mt-6 text-sm text-gray-500">
-                            <a href="#">
-                                <span class="absolute inset-0"></span>
-                                Desk and Office
-                            </a>
-                        </h3>
-                        <p class="text-base font-semibold text-gray-900">
-                            Work from home accessories
-                        </p>
-                    </div>
-                    <div class="group relative">
-                        <div
-                            class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
-                        >
-                            <img
-                                src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg"
-                                alt="Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant."
-                                class="h-full w-full object-cover object-center"
-                            />
+                        <div class="flex items-center gap-x-4 text-xs mt-4">
+                            <span
+                                class="flex rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+                                ><box-icon
+                                    type="solid"
+                                    name="news"
+                                    color="#cbd5e1"
+                                ></box-icon
+                                ><font class="p-1.5">ข่าวสาร</font></span
+                            >
                         </div>
-                        <h3 class="mt-6 text-sm text-gray-500">
-                            <a href="#">
-                                <span class="absolute inset-0"></span>
-                                Self-Improvement
-                            </a>
-                        </h3>
-                        <p class="text-base font-semibold text-gray-900">
-                            Journals and note-taking
-                        </p>
-                    </div>
-                    <div class="group relative">
-                        <div
-                            class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
-                        >
-                            <img
-                                src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg"
-                                alt="Collection of four insulated travel bottles on wooden shelf."
-                                class="h-full w-full object-cover object-center"
-                            />
+                        <div class="group relative">
+                            <h3
+                                class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600"
+                            >
+                                <span
+                                    class="cursor-pointer"
+                                    @click="postDetail(post.id)"
+                                >
+                                    {{ post.title }}
+                                </span>
+                            </h3>
+                            <p
+                                class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600 indent-4"
+                            >
+                                {{ removeTag(post.detail) }}
+                            </p>
                         </div>
-                        <h3 class="mt-6 text-sm text-gray-500">
-                            <a href="#">
-                                <span class="absolute inset-0"></span>
-                                Travel
-                            </a>
-                        </h3>
-                        <p class="text-base font-semibold text-gray-900">
-                            Daily commute essentials
-                        </p>
-                    </div>
+                        <div class="relative mt-8 flex items-center gap-x-4">
+                            <box-icon
+                                name="user"
+                                color="#cbd5e1"
+                                size="md"
+                            ></box-icon>
+                            <div class="text-sm leading-6">
+                                <p class="font-semibold text-gray-900">
+                                    <span class="absolute inset-0"></span>
+                                    {{ post.created_by }}
+                                </p>
+                                <p class="text-gray-400">
+                                    {{
+                                        moment(post.created_at)
+                                            .add(543, "years")
+                                            .format("LL")
+                                    }}
+                                </p>
+                            </div>
+                        </div>
+                    </article>
                 </div>
             </div>
 
@@ -508,56 +196,23 @@
                 <div
                     class="lg:gap-xl-12 grid gap-x-6 md:grid-cols-3 xl:grid-cols-4"
                 >
-                    <div class="mb-12">
+                    <div
+                        class="mb-12"
+                        v-for="(collap, index) in collapList"
+                        :key="index"
+                    >
                         <img
-                            src="https://mdbcdn.b-cdn.net/img/new/avatars/2.jpg"
+                            :src="collapPath + collap.pic"
                             class="mx-auto mb-4 rounded-full shadow-lg dark:shadow-black/20"
                             alt=""
                             style="max-width: 100px"
                         />
 
-                        <p class="mb-2 font-bold">John Doe</p>
-                        <p class="text-neutral-500 dark:text-neutral-300">
-                            Co-founder
+                        <p class="mb-2 font-bold">
+                            {{ collap.name }} {{ collap.surname }}
                         </p>
-                    </div>
-
-                    <div class="mb-12">
-                        <img
-                            src="https://mdbcdn.b-cdn.net/img/new/avatars/5.jpg"
-                            class="mx-auto mb-4 rounded-full shadow-lg dark:shadow-black/20"
-                            alt=""
-                            style="max-width: 100px"
-                        />
-
-                        <p class="mb-2 font-bold">Lisa Ferrol</p>
                         <p class="text-neutral-500 dark:text-neutral-300">
-                            Web designer
-                        </p>
-                    </div>
-
-                    <div class="mb-12">
-                        <img
-                            src="https://mdbcdn.b-cdn.net/img/new/avatars/6.jpg"
-                            class="mx-auto mb-4 rounded-full shadow-lg dark:shadow-black/20"
-                            alt=""
-                            style="max-width: 100px"
-                        />
-                        <p class="mb-2 font-bold">Maria Smith</p>
-                        <p class="text-neutral-500 dark:text-neutral-300">
-                            Senior consultant
-                        </p>
-                    </div>
-                    <div class="mb-12">
-                        <img
-                            src="https://mdbcdn.b-cdn.net/img/new/avatars/7.jpg"
-                            class="mx-auto mb-4 rounded-full shadow-lg dark:shadow-black/20"
-                            alt=""
-                            style="max-width: 100px"
-                        />
-                        <p class="mb-2 font-bold">Agatha Bevos</p>
-                        <p class="text-neutral-500 dark:text-neutral-300">
-                            Co-founder
+                            {{ collap.detail }}
                         </p>
                     </div>
                 </div>
@@ -671,10 +326,11 @@
                                                 Address
                                             </p>
                                             <p class="text-neutral-500">
-                                                support@example.com
+                                                Faculty of Environment and
+                                                Resource Studies
                                             </p>
                                             <p class="text-neutral-500">
-                                                +1 234-567-89
+                                                Mahasarakham University
                                             </p>
                                         </div>
                                     </div>
@@ -700,10 +356,7 @@
                                                 Email
                                             </p>
                                             <p class="text-neutral-500">
-                                                sales@example.com
-                                            </p>
-                                            <p class="text-neutral-500">
-                                                +1 234-567-89
+                                                thayukorn.p@msu.ac.th
                                             </p>
                                         </div>
                                     </div>
@@ -730,10 +383,7 @@
                                                 Tel
                                             </p>
                                             <p class="text-neutral-500">
-                                                press@example.com
-                                            </p>
-                                            <p class="text-neutral-500">
-                                                +1 234-567-89
+                                                080-1234567
                                             </p>
                                         </div>
                                     </div>
@@ -800,19 +450,70 @@
 <script>
 import "boxicons";
 import Swal from "sweetalert2";
+import moment from "moment"; //format date thai
+import "moment/dist/locale/th";
+moment.locale("th");
+import { GoogleMap, InfoWindow } from "vue3-google-map";
 
 export default {
-    mounted() {},
+    async mounted() {
+        this.getMap();
+        this.getPost();
+        this.getCollap();
+    },
     data() {
         return {
+            mapList: "",
+            mapPath: "/storage/maps/",
+            collapList: "",
+            collapPath: "/storage/collaps/",
+            postList: "",
+            postPath: "/storage/posts/",
             dataCont: {
                 name: "",
                 email: "",
                 detail: "",
             },
+            moment: moment,
         };
     },
     methods: {
+        getMap() {
+            axios
+                .get("/api/showMap")
+                .then((response) => {
+                    this.mapList = response.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        getCollap() {
+            axios
+                .get("/api/showCollap")
+                .then((response) => {
+                    this.collapList = response.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        getPost() {
+            axios
+                .get("/api/showPost")
+                .then((response) => {
+                    this.postList = response.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        postDetail(id) {
+            this.$router.push("/postDetail/" + id);
+        },
+        mapDetail(id) {
+            this.$router.push("/mapDetail/" + id);
+        },
         sendContact() {
             axios
                 .post("/api/contact", this.dataCont)
@@ -829,6 +530,20 @@ export default {
                     console.log(err);
                 });
         },
+        removeTag(str) {
+            return str.replace(/&nbsp;|(<([^>]+)>)/g, "").substring(0, 200);
+        },
+    },
+    components: { GoogleMap, InfoWindow },
+    setup() {
+        const center = { lat: -33.9, lng: 151.1 };
+        return { center };
     },
 };
 </script>
+
+<style>
+#map {
+    height: 100%;
+}
+</style>

@@ -15,6 +15,10 @@ import Post from "../components/Post.vue";
 import AddPost from "../components/AddPost.vue";
 import Map from "../components/Map.vue";
 import AddMap from "../components/AddMap.vue";
+import EditPost from "../components/EditPost .vue";
+import EditMap from "../components/EditMap.vue";
+import PostDetail from "../components/PostDetail.vue";
+import MapDetail from "../components/MapDetail.vue";
 
 import store from "../store";
 
@@ -28,6 +32,16 @@ const routes = [
         path: "/login",
         name: "login",
         component: Login,
+    },
+    {
+        path: "/postDetail/:id",
+        name: "postDetail",
+        component: PostDetail,
+    },
+    {
+        path: "/mapDetail/:id",
+        name: "mapDetail",
+        component: MapDetail,
     },
     {
         path: "/home",
@@ -121,6 +135,14 @@ const routes = [
                 },
             },
             {
+                path: "/editPost/:id",
+                name: "editPost",
+                component: EditPost,
+                meta: {
+                    guard: "auth",
+                },
+            },
+            {
                 path: "/map",
                 name: "map",
                 component: Map,
@@ -132,6 +154,14 @@ const routes = [
                 path: "/addMap",
                 name: "addMap",
                 component: AddMap,
+                meta: {
+                    guard: "auth",
+                },
+            },
+            {
+                path: "/editMap/:id",
+                name: "editMap",
+                component: EditMap,
                 meta: {
                     guard: "auth",
                 },

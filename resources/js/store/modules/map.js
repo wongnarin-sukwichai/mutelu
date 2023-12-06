@@ -13,12 +13,12 @@ export default {
     },
     actions: {
 
-        async storePost({ dispatch }, payload) {
+        async storeMap({ dispatch }, payload) {
 
             try {
                 await axios.get('/sanctum/csrf-cookie'); 
                 await axios
-                    .post('/api/post', payload) 
+                    .post('/api/map', payload) 
                     .then((response) => {                     
                         
                     })
@@ -31,12 +31,12 @@ export default {
             }
         },
 
-        async updatePost({ dispatch }, payload) {
+        async updateMap({ dispatch }, payload) {
 
             try {
                 await axios.get('/sanctum/csrf-cookie'); 
                 await axios
-                    .put('/api/post/' + payload.id, payload) 
+                    .put('/api/map/' + payload.id, payload) 
                     .then((response) => {                     
                     
                     })

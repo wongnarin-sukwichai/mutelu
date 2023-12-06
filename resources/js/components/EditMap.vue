@@ -1,18 +1,18 @@
 <template>
     <div class="justify-center p-8">
-        <form @submit.prevent="sendMap()">
+        <form @submit.prevent="updateMap()">
             <div class="flex grid grid-cols-4">
                 <div class="px-4 py-5 sm:px-6 col-span-2">
                     <h3 class="text-lg leading-6 font-medium text-gray-700">
                         <box-icon
-                            name="map"
+                            name="cog"
                             color="gray"
                             size="lg"
                             class="pr-2"
                         ></box-icon
-                        >แผนที่
+                        >แก้ไขแผนที่
                     </h3>
-                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Map</p>
+                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Edit Map</p>
                 </div>
             </div>
 
@@ -176,7 +176,7 @@
                                 ** ข้อความเกิน 200 อักขระ
                             </div>
                         </transition>
-                    </div>               
+                    </div>
                     <div
                         class="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
                     >
@@ -265,6 +265,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default {
     mounted() {
+        this.getMap();
         this.getType();
     },
     data() {
@@ -274,6 +275,7 @@ export default {
             chkLength: true,
             chkPic: true,
             dataMap: {
+                id: this.$route.params.id,
                 pic: "",
                 type: "",
                 icon: "",
@@ -288,29 +290,53 @@ export default {
             editorConfig: {
                 // The configuration of the editor.
             },
-            showType: '',
+            showType: "",
             selType: false,
             path: "/img/icon/",
-            idType: "1",
-            iconType: "temple.png",
-            callType: "วัด",
+            idType: "",
+            iconType: "",
+            callType: "",
         };
     },
     methods: {
-        getType() {
-            axios.get('/api/type').then((Response) => {
-                this.showType = Response.data
-            }) .catch((err) => {
-                console.log(err)
-            })
+        getMap() {
+            axios
+                .get("/api/map/" + this.$route.params.id)
+                .then((response) => {
+                    this.previewImage = "/storage/maps/" + response.data.pic;
+                    this.dataMap.pic = response.data.pic;
+
+                    this.idType = response.data.type;
+                    this.iconType = response.data.icon;
+                    this.callType = response.data.call;
+
+                    this.dataMap.title = response.data.title;
+                    this.dataMap.lat = response.data.lat;
+                    this.dataMap.lon = response.data.lon;
+                    this.dataMap.gmap = response.data.gmap;
+                    this.dataMap.detail = response.data.detail;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
-        
+        getType() {
+            axios
+                .get("/api/type")
+                .then((Response) => {
+                    this.showType = Response.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+
         pickType(code) {
             this.selType = false;
 
             this.idType = this.showType[code].id;
             this.iconType = this.showType[code].pic;
-            this.callType = this.showType[code].title;        
+            this.callType = this.showType[code].title;
         },
 
         resetFile() {
@@ -339,14 +365,11 @@ export default {
             }
         },
 
-        async sendMap() {
-            if (
-                this.dataMap.title != null &&
-                this.dataMap.title.length > 255
-            ) {
+        async updateMap() {
+            if (this.dataMap.title != null && this.dataMap.title.length > 255) {
                 this.$refs.title.focus();
                 this.chkLength = false;
-            } else if (this.file == null) {
+            } else if (this.previewImage == null) {
                 this.chkPic = false;
             } else {
                 if (this.file != null) {
@@ -359,13 +382,14 @@ export default {
                         console.log(err);
                     }
                     this.dataMap.pic = this.$store.getters.getPicName;
-                    this.dataMap.type = this.idType;
-                    this.dataMap.icon = this.iconType;
-                    this.dataMap.call = this.callType;
                 }
 
+                this.dataMap.type = this.idType;
+                this.dataMap.icon = this.iconType;
+                this.dataMap.call = this.callType;
+
                 try {
-                    await this.$store.dispatch("storeMap", this.dataMap);
+                    await this.$store.dispatch("updateMap", this.dataMap);
                     Swal.fire({
                         position: "top-end",
                         icon: "success",

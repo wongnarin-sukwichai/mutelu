@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Post;
+
+use App\Models\Map;
 use Illuminate\Support\Facades\Auth;
 
-class PostController extends Controller
+class MapController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +16,9 @@ class PostController extends Controller
     public function index()
     {
         if (Auth::user()->level == null) {
-            $data = Post::where('uid', Auth::user()->id)->orderBy('id', 'DESC')->get();
+            $data = Map::where('uid', Auth::user()->id)->orderBy('id', 'DESC')->get();
         } else {
-            $data = Post::orderBy('id', 'DESC')->get();
+            $data = Map::all();
         }
 
         return response()->json($data);
@@ -36,17 +37,26 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'pic' => 'required',
+            'type' => 'required',
             'title' => 'required',
-            'detail' => 'required'
+            'lat' => 'required',
+            'lon' => 'required',
+            'gmap' => 'required'
         ]);
 
-        $data = new Post();
+        $data = new Map();
         $data->pic = $request['pic'];
+        $data->type = $request['type'];
+        $data->icon = $request['icon'];
+        $data->call = $request['call'];
         $data->title = $request['title'];
+        $data->lat = $request['lat'];
+        $data->lon = $request['lon'];
         $data->detail = $request['detail'];
-        $data->like = null;
+        $data->gmap = $request['gmap'];
         $data->uid = Auth::user()->id;
         $data->created_by = Auth::user()->name . ' ' . Auth::user()->surname;
         $data->email = Auth::user()->email;
@@ -61,8 +71,7 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-
-        $data = Post::find($id);
+        $data = Map::find($id);
 
         return response()->json($data);
     }
@@ -80,11 +89,17 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = Post::find($id);
+        $data = Map::find($id);
 
         $data->pic = $request['pic'];
+        $data->type = $request['type'];
+        $data->icon = $request['icon'];
+        $data->call = $request['call'];
         $data->title = $request['title'];
+        $data->lat = $request['lat'];
+        $data->lon = $request['lon'];
         $data->detail = $request['detail'];
+        $data->gmap = $request['gmap'];
 
         $data->update();
 
@@ -96,7 +111,7 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        $data = Post::find($id);
+        $data = Map::find($id);
 
         if (Auth::user()->level == null && $data->uid != Auth::user()->id) 
         {
@@ -104,7 +119,7 @@ class PostController extends Controller
                 'message' => 'ไม่มีสิทธิ์ลบข้อมูล กรุณาติดต่อเจ้าหน้าที่'
             ]);
         } else {
-            Post::find($id)->delete();
+            Map::find($id)->delete();
             return response()->json('delete complete');
         }
     }

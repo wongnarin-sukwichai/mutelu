@@ -154,7 +154,7 @@
                                 @click="detailMap(map.id)"
                             >
                                 <box-icon
-                                    name="windows"
+                                    name="link-external"
                                     color="#22d3ee"
                                     size="sm"
                                     animation="tada-hover"

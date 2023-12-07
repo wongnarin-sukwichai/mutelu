@@ -21,6 +21,7 @@
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^40.1.0",
         "@ckeditor/ckeditor5-vue": "^5.1.0",
+        "@fawmi/vue-google-maps": "^0.9.79",
         "@googlemaps/js-api-loader": "^1.16.2",
         "@vitejs/plugin-vue": "^4.4.1",
         "boxicons": "^2.1.4",

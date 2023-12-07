@@ -11,7 +11,7 @@
                 <template v-for="(gmap, index) in mapList" :key="index">
                     <Marker
                         :options="{
-                            position: { lat: parseFloat(gmap.lat), lng: parseFloat(gmap.lon) },
+                            position: center,
                             icon: path + gmap.icon,
                         }"
                     >

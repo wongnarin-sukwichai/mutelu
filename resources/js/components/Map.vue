@@ -292,7 +292,7 @@ export default {
             this.$router.push('/editMap/' + id)
         },
         detailMap(id){
-            window.open('/mapDetail/' + id, "_blank");
+            this.$router.push('/mapDetail/' + id, "_blank");
         },
         linkMap(link){
             window.open(link, "_blank");

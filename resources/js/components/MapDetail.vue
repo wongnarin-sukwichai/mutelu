@@ -40,9 +40,9 @@
                         <div
                             class="flex justify-center border border-2 border-dashed border-amber-300 hover:border-amber-400 py-12 mb-1 cursor-pointer"
                         >
-                            <h1 class="pr-8 text-6xl text-amber-400">{{ recordList.count_1[0].number }}</h1>
-                            <h1 class="pr-8 text-6xl text-amber-400">{{ recordList.count_1[1].number }}</h1>
-                            <h1 class="pr-8 text-6xl text-rose-400">{{ recordList.count_2[0].number }}</h1>
+                            <h1 class="pr-8 text-6xl text-amber-400">{{ rec1 }}</h1>
+                            <h1 class="pr-8 text-6xl text-amber-400">{{ rec2 }}</h1>
+                            <h1 class="pr-8 text-6xl text-rose-400">{{ rec3 }}</h1>
                         </div>
                         <span class="flex justify-end text-gray-300 italic"
                             >** Click ที่กรอบเพื่อเพิ่มสถิติเลขมงคล</span
@@ -163,7 +163,7 @@ moment.locale("th");
 
 export default {
     mounted() {
-        this.getPost();
+        this.getMap();
         this.getRecord();
     },
     data() {
@@ -180,11 +180,14 @@ export default {
                 number: "",
                 type: ""
             },
-            recordList: ""
+            recordList: "",
+            rec1: "",
+            rec2: "",
+            rec3: ""
         };
     },
     methods: {
-        getPost() {
+        getMap() {
             axios
                 .get("/api/mapDetail/" + this.$route.params.id)
                 .then((response) => {
@@ -197,6 +200,9 @@ export default {
         getRecord() {
             axios.get('/api/record/' + this.$route.params.id).then((response) => {
                 this.recordList = response.data
+                this.rec1 = response.data.count_1[0].number
+                this.rec2 = response.data.count_1[1].number
+                this.rec3 = response.data.count_2[0].number
             }) .catch((err) => {
                 console.log(err)
             })
@@ -241,7 +247,7 @@ export default {
                 // 46 is dot
                 $event.preventDefault();
             }
-        }, 
+        },
     },
     computed: {
         user() {

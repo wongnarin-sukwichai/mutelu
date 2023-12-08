@@ -40,7 +40,7 @@ Route::middleware('guest')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function () { 
     Route::get('user', UserController::class);
     Route::resource('profile', ProfileController::class);
     Route::resource('member', MemberController::class);
@@ -50,4 +50,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('collap', CollapController::class);
     Route::resource('post', PostController::class);
     Route::resource('map', MapController::class);
+    Route::get('mapAll', [MapController::class, 'mapAll']);
 });

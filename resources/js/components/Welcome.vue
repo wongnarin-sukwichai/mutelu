@@ -11,7 +11,10 @@
                 <template v-for="(gmap, index) in mapList" :key="index">
                     <Marker
                         :options="{
-                            position: { lat: parseFloat(gmap.lat), lng: parseFloat(gmap.lon) },
+                            position: {
+                                lat: parseFloat(gmap.lat),
+                                lng: parseFloat(gmap.lon),
+                            },
                             icon: path + gmap.icon,
                         }"
                     >
@@ -487,7 +490,7 @@ moment.locale("th");
 import { GoogleMap, Marker, InfoWindow, CustomMarker } from "vue3-google-map";
 
 export default {
-    async mounted() {
+    mounted() {
         this.getMap();
         this.getPost();
         this.getCollap();
@@ -547,8 +550,8 @@ export default {
         mapDetail(id) {
             this.$router.push("/mapDetail/" + id);
         },
-        linkMap(link){
-            window.open(link, '_blank');
+        linkMap(link) {
+            window.open(link, "_blank");
         },
         sendContact() {
             axios

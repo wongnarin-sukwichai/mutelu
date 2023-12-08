@@ -123,4 +123,11 @@ class MapController extends Controller
             return response()->json('delete complete');
         }
     }
+
+    public function mapAll()
+    {
+        $data = Map::all();
+
+        return response()->json($data);
+    }
 }

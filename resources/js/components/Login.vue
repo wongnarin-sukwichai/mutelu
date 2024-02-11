@@ -40,7 +40,6 @@
                     </button>
                 </div>
             </form>
-
         </div>
     </div>
 </template>
@@ -48,30 +47,37 @@
 <script>
 import Swal from "sweetalert2";
 
-    export default {
-        mounted() {},
-        data() {
-            return {
-                auth: {
-                    email: '',
-                    password: ''
-                }
+export default {
+    mounted() {},
+    data() {
+        return {
+            auth: {
+                email: "",
+                password: "",
+            },
+        };
+    },
+    methods: {
+        async login() {
+            try {
+                await this.$store.dispatch("login", this.auth);
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "เข้าสู่ระบบเรียบร้อย",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                this.$router.push({ name: "home" });
+            } catch {
+                Swal.fire({
+                    icon: "error",
+                    title: "ผิดพลาด",
+                    text: "กรุณาตรวจสอบ Email, Password",
+                    timer: 1500,
+                });
             }
         },
-        methods: {
-            async login() {
-                try {
-                    await this.$store.dispatch('login', this.auth)
-                    this.$router.push({name: 'home'})
-                } catch {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'ผิดพลาด',
-                        text: 'กรุณาตรวจสอบ Email, Password',
-                        timer: 1500
-                    })
-                }
-            }
-        }
-    }
+    },
+};
 </script>

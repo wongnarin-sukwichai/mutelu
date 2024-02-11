@@ -21,6 +21,8 @@ import PostDetail from "../components/PostDetail.vue";
 import MapDetail from "../components/MapDetail.vue";
 
 import store from "../store";
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 const routes = [
     {
@@ -176,6 +178,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+    AOS.init();
     if (store.getters.user) {
         if (to.matched.some((route) => route.meta.guard === "guest"))
             next({ name: "home" });

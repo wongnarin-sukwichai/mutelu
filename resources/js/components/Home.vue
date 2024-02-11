@@ -172,9 +172,6 @@
 export default {
     mounted() {},
     data() {
-        return {
-            level: "",
-        };
     },
     methods: {
         async logout() {

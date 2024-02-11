@@ -24,6 +24,7 @@
         "@fawmi/vue-google-maps": "^0.9.79",
         "@googlemaps/js-api-loader": "^1.16.2",
         "@vitejs/plugin-vue": "^4.4.1",
+        "aos": "^2.3.4",
         "boxicons": "^2.1.4",
         "moment": "^2.29.4",
         "sweetalert2": "^11.9.0",
@@ -31,6 +32,7 @@
         "vue-loader": "^17.3.1",
         "vue-router": "^4.0.13",
         "vue3-google-map": "^0.18.0",
-        "vuex": "^4.0.2"
+        "vuex": "^4.0.2",
+        "vuex-persistedstate": "^4.1.0"
     }
 }

@@ -16,7 +16,7 @@ export default {
         async storeMap({ dispatch }, payload) {
 
             try {
-                await axios.get('/sanctum/csrf-cookie'); 
+                // await axios.get('/sanctum/csrf-cookie'); 
                 await axios
                     .post('/api/map', payload) 
                     .then((response) => {                     
@@ -34,7 +34,7 @@ export default {
         async updateMap({ dispatch }, payload) {
 
             try {
-                await axios.get('/sanctum/csrf-cookie'); 
+                // await axios.get('/sanctum/csrf-cookie'); 
                 await axios
                     .put('/api/map/' + payload.id, payload) 
                     .then((response) => {                     

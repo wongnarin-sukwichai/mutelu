@@ -16,7 +16,7 @@ export default {
         async storeRecord({ dispatch }, payload) {
 
             try {
-                await axios.get('/sanctum/csrf-cookie'); 
+                // await axios.get('/sanctum/csrf-cookie'); 
                 await axios
                     .post('/api/record', payload) 
                     .then((response) => {                     

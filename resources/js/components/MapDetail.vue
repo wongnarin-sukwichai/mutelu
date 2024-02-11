@@ -45,7 +45,7 @@
                             <h1 class="pr-8 text-6xl text-rose-400">{{ rec3 }}</h1>
                         </div>
                         <span class="flex justify-end text-gray-300 italic"
-                            >** Click ที่กรอบเพื่อเพิ่มสถิติเลขมงคล</span
+                            >** Click ที่กรอบเพื่อเพิ่มเลขเสี่ยงโชค</span
                         >
                     </div>
 

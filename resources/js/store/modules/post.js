@@ -16,7 +16,7 @@ export default {
         async storePost({ dispatch }, payload) {
 
             try {
-                await axios.get('/sanctum/csrf-cookie'); 
+                // await axios.get('/sanctum/csrf-cookie'); 
                 await axios
                     .post('/api/post', payload) 
                     .then((response) => {                     
@@ -34,7 +34,7 @@ export default {
         async updatePost({ dispatch }, payload) {
 
             try {
-                await axios.get('/sanctum/csrf-cookie'); 
+                // await axios.get('/sanctum/csrf-cookie'); 
                 await axios
                     .put('/api/post/' + payload.id, payload) 
                     .then((response) => {                     

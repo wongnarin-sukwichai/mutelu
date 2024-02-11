@@ -16,7 +16,7 @@ export default {
         async storeCollap({ dispatch }, payload) {
 
             try {
-                await axios.get('/sanctum/csrf-cookie'); 
+                // await axios.get('/sanctum/csrf-cookie'); 
                 await axios
                     .post('/api/collap', payload) 
                     .then((response) => {                     
@@ -34,7 +34,7 @@ export default {
         async updateCollap({ dispatch }, payload) {
 
             try {
-                await axios.get('/sanctum/csrf-cookie'); 
+                // await axios.get('/sanctum/csrf-cookie'); 
                 await axios
                     .put('/api/collap/' + payload.id, payload) 
                     .then((response) => {                     

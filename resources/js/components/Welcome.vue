@@ -69,6 +69,8 @@
             <!-- Post -->
             <div
                 class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-gray-200 lg:mx-0 lg:max-w-none lg:grid-cols-3"
+                data-aos="zoom-in"
+                data-aos-duration="1500"
             >
                 <article
                     class="flex max-w-xl flex-col items-start justify-between"
@@ -76,11 +78,11 @@
                     :key="index"
                 >
                     <div
-                        class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
+                        class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64 hover:scale-105 shadow-lg"
                     >
                         <img
                             :src="mapPath + map.pic"
-                            class="h-full w-full object-cover object-center cursor-pointer hover:scale-110"
+                            class="h-full w-full object-cover object-center cursor-pointer"
                             @click="mapDetail(map.id)"
                         />
                     </div>
@@ -136,7 +138,11 @@
             </div>
 
             <!-- Category -->
-            <div class="mx-auto max-w-2xl py-8 sm:py-12 lg:max-w-none lg:py-16">
+            <div
+                class="mx-auto max-w-2xl py-8 sm:py-12 lg:max-w-none lg:py-16"
+                data-aos="fade-in"
+                data-aos-duration="2500"
+            >
                 <div class="flex justify-between">
                     <h2 class="text-xl font-bold text-gray-900">
                         เรื่องราวความเชื่อ/ภูมิปัญญา/อาถรรพ์
@@ -163,11 +169,11 @@
                         :key="index"
                     >
                         <div
-                            class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64"
+                            class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64 hover:scale-105 shadow-lg"
                         >
                             <img
                                 :src="postPath + post.pic"
-                                class="h-full w-full object-cover object-center cursor-pointer hover:scale-110"
+                                class="h-full w-full object-cover object-center cursor-pointer"
                                 @click="postDetail(post.id)"
                             />
                         </div>
@@ -224,7 +230,11 @@
             </div>
 
             <!-- Team -->
-            <section class="text-center">
+            <section
+                class="text-center"
+                data-aos="fade-in"
+                data-aos-duration="2500"
+            >
                 <h2 class="mb-12 text-3xl font-bold">เครือข่ายความร่วมมือ</h2>
 
                 <div
@@ -254,7 +264,11 @@
             <!-- Section: Design Block -->
 
             <!-- Contact -->
-            <div class="my-4 mx-auto md:px-6">
+            <div
+                class="my-4 mx-auto md:px-6"
+                data-aos="fade-in"
+                data-aos-duration="25000"
+            >
                 <!-- Section: Design Block -->
                 <section class="mb-32">
                     <div class="flex justify-center">

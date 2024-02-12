@@ -84,8 +84,9 @@
                         <td class="px-6 py-4">
                             <div class="relative h-10 w-10">
                                 <img
-                                    class="h-full w-full rounded-full object-cover object-center"
+                                    class="h-full w-full rounded-full object-cover object-center hover:scale-105 cursor-pointer"
                                     :src="path + post.pic"
+                                    @click="getPic(post.pic)"
                                 />
                             </div>
                         </td>
@@ -93,7 +94,7 @@
                             {{ post.title }}
                         </td>
                         <td class="px-6 py-4">
-                            <div class="flex gap-4" @click="detailPost(map.id)">
+                            <div class="flex gap-4" @click="detailPost(post.id)">
                                 <box-icon
                                     name="windows"
                                     color="#22d3ee"
@@ -201,7 +202,7 @@ export default {
                 });
         },
         editPost(id){
-            this.$router.push('/editPost/' + id)
+            this.$router.push('/editPost/' + id, "_blank")
         },
         delPost(id, index) {
             Swal.fire({
@@ -226,6 +227,12 @@ export default {
                     Swal.fire("ลบข้อมูล!", "ลบข้อมูลเรียบร้อย", "success");
                 }
             });
+        },
+        getPic(pic) {
+            window.open("/storage/posts/" + pic, "_blank");
+        },
+        detailPost(id){
+            window.open('/postDetail/' + id, "_blank");
         },
     },
 };

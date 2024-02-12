@@ -7,6 +7,8 @@
                 style="width: 100%; height: 500px"
                 :center="center"
                 :zoom="5"
+                data-aos="fade-in"
+                data-aos-duration="1500"
             >
                 <template v-for="(gmap, index) in mapList" :key="index">
                     <Marker
@@ -67,9 +69,23 @@
             </GoogleMap>
 
             <!-- Post -->
+            <div class="flex justify-between my-8">
+                <h2 class="text-3xl font-bold text-gray-900">แผนที่</h2>
+                <h2
+                    class="flex justify-end text-blue-500 cursor-pointer hover:text-blue-600"
+                    @click="mapAll()"
+                >
+                    อ่านทั้งหมด
+                    <box-icon
+                        name="chevrons-right"
+                        color="#3b82f6"
+                        animation="fade-right-hover"
+                    ></box-icon>
+                </h2>
+            </div>
             <div
-                class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-gray-200 lg:mx-0 lg:max-w-none lg:grid-cols-3"
-                data-aos="zoom-in"
+                class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-gray-200 lg:mx-0 lg:max-w-none lg:grid-cols-3"
+                data-aos="fade-in"
                 data-aos-duration="1500"
             >
                 <article
@@ -114,7 +130,9 @@
                             {{ removeTag(map.detail) }}
                         </p>
                     </div>
-                    <div class="relative mt-8 flex items-center gap-x-4">
+                    <div
+                        class="relative mt-8 flex items-center gap-x-4 border w-full rounded-lg p-2 border-gray-100 shadow-sm"
+                    >
                         <box-icon
                             name="user"
                             color="#cbd5e1"
@@ -137,18 +155,35 @@
                 </article>
             </div>
 
+            <!-- hr -->
+            <div class="inline-flex items-center justify-center w-full mt-8">
+                <hr
+                    class="w-64 h-1 my-8 bg-gray-200 border-0 rounded dark:bg-gray-700"
+                />
+                <div
+                    class="absolute px-4 -translate-x-1/2 bg-white left-1/2 dark:bg-gray-900"
+                >
+                    <box-icon
+                        type="solid"
+                        name="quote-right"
+                        color="#d1d5db"
+                    ></box-icon>
+                </div>
+            </div>
+
             <!-- Category -->
             <div
-                class="mx-auto max-w-2xl py-8 sm:py-12 lg:max-w-none lg:py-16"
+                class="mx-auto max-w-2xl py-4 sm:py-6 lg:max-w-none lg:py-8"
                 data-aos="fade-in"
                 data-aos-duration="2500"
             >
                 <div class="flex justify-between">
-                    <h2 class="text-xl font-bold text-gray-900">
+                    <h2 class="text-3xl font-bold text-gray-900">
                         เรื่องราวความเชื่อ/ภูมิปัญญา/อาถรรพ์
                     </h2>
-                    <h2
+                    <router-link
                         class="flex justify-end text-blue-500 cursor-pointer hover:text-blue-600"
+                        to="/postAll"
                     >
                         อ่านทั้งหมด
                         <box-icon
@@ -156,7 +191,7 @@
                             color="#3b82f6"
                             animation="fade-right-hover"
                         ></box-icon>
-                    </h2>
+                    </router-link>
                 </div>
 
                 <!-- Post -->
@@ -205,7 +240,9 @@
                                 {{ removeTag(post.detail) }}
                             </p>
                         </div>
-                        <div class="relative mt-8 flex items-center gap-x-4">
+                        <div
+                            class="relative mt-8 flex items-center gap-x-4 border w-full rounded-lg p-2 border-gray-100 shadow-sm"
+                        >
                             <box-icon
                                 name="user"
                                 color="#cbd5e1"
@@ -229,16 +266,32 @@
                 </div>
             </div>
 
+            <!-- hr -->
+            <div class="inline-flex items-center justify-center w-full">
+                <hr
+                    class="w-64 h-1 my-8 bg-gray-200 border-0 rounded dark:bg-gray-700"
+                />
+                <div
+                    class="absolute px-4 -translate-x-1/2 bg-white left-1/2 dark:bg-gray-900"
+                >
+                    <box-icon
+                        type="solid"
+                        name="quote-right"
+                        color="#d1d5db"
+                    ></box-icon>
+                </div>
+            </div>
+
             <!-- Team -->
             <section
                 class="text-center"
                 data-aos="fade-in"
                 data-aos-duration="2500"
             >
-                <h2 class="mb-12 text-3xl font-bold">เครือข่ายความร่วมมือ</h2>
+                <h2 class="text-3xl font-bold mt-8">เครือข่ายความร่วมมือ</h2>
 
                 <div
-                    class="lg:gap-xl-12 grid gap-x-6 md:grid-cols-3 xl:grid-cols-4"
+                    class="lg:gap-xl-12 mt-12 grid gap-x-6 md:grid-cols-3 xl:grid-cols-4"
                 >
                     <div
                         class="mb-12"
@@ -261,7 +314,22 @@
                     </div>
                 </div>
             </section>
-            <!-- Section: Design Block -->
+
+            <!-- hr -->
+            <div class="inline-flex items-center justify-center w-full">
+                <hr
+                    class="w-64 h-1 my-8 bg-gray-200 border-0 rounded dark:bg-gray-700"
+                />
+                <div
+                    class="absolute px-4 -translate-x-1/2 bg-white left-1/2 dark:bg-gray-900"
+                >
+                    <box-icon
+                        type="solid"
+                        name="quote-right"
+                        color="#d1d5db"
+                    ></box-icon>
+                </div>
+            </div>
 
             <!-- Contact -->
             <div
@@ -489,7 +557,6 @@
                         </div>
                     </div>
                 </section>
-                <!-- Section: Design Block -->
             </div>
         </div>
     </div>
@@ -525,6 +592,7 @@ export default {
             moment: moment,
             path: "/img/icon/",
             pathMap: "/storage/maps/thumbnails/",
+            user: "",
         };
     },
     methods: {
@@ -562,7 +630,7 @@ export default {
             this.$router.push("/postDetail/" + id);
         },
         mapDetail(id) {
-            this.$router.push("/mapDetail/" + id);
+            this.$router.push("/mapDetail/" + id, "_blank");
         },
         linkMap(link) {
             window.open(link, "_blank");
@@ -585,6 +653,19 @@ export default {
         },
         removeTag(str) {
             return str.replace(/&nbsp;|(<([^>]+)>)/g, "").substring(0, 200);
+        },
+        mapAll() {
+            var user = this.$store.getters.user;
+            if (user == null) {
+                Swal.fire({
+                    icon: "error",
+                    title: "เฉพาะสมาชิกเท่านั้น",
+                    text: "กรุณา Login เข้าสู่ระบบ",
+                    timer: 3000,
+                });
+            } else {
+                this.$router.push({ name: "mapAll" })
+            }
         },
     },
     components: { GoogleMap, Marker, InfoWindow, CustomMarker },

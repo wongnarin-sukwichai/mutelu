@@ -54,6 +54,24 @@
             </div>
         </div>
 
+        <!-- Search -->
+        <div class="pb-4">
+            <form class="flex justify-end" @submit.prevent="search()">
+                <input
+                    type="text"
+                    class="p-2 mr-4 block w-56 rounded-md border py-1.5 text-gray-900 shadow-sm sm:text-sm hover:ring-2 hover:ring-blue-400 hover:ring-inset outline-0"
+                    required
+                    v-model="data.search"
+                />
+                <button
+                    type="submit"
+                    class="bg-sky-200 hover:bg-sky-300 shadow-lg rounded-md p-2 text-sm text-gray-700"
+                >
+                    ค้นหา
+                </button>
+            </form>
+        </div>
+
         <!-- component -->
         <div
             class="overflow-hidden rounded-lg border border-gray-200 shadow-lg"
@@ -134,8 +152,9 @@
                         <td class="px-6 py-4">
                             <div class="relative h-10 w-10">
                                 <img
-                                    class="h-full w-full rounded-full object-cover object-center"
+                                    class="h-full w-full rounded-full object-cover object-center hover:scale-105 cursor-pointer"
                                     :src="path + map.pic"
+                                    @click="getPic(map.pic)"
                                 />
                             </div>
                         </td>
@@ -146,13 +165,14 @@
                             />
                         </td>
                         <td class="px-6 py-4">{{ map.title }}</td>
-                        <td class="px-6 py-4">{{ map.lat.substring(0,7) }}...</td>
-                        <td class="px-6 py-4">{{ map.lon.substring(0,7) }}...</td>
                         <td class="px-6 py-4">
-                            <div
-                                class="flex gap-4"
-                                @click="detailMap(map.id)"
-                            >
+                            {{ map.lat.substring(0, 7) }}...
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ map.lon.substring(0, 7) }}...
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex gap-4" @click="detailMap(map.id)">
                                 <box-icon
                                     name="link-external"
                                     color="#22d3ee"
@@ -163,10 +183,7 @@
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <div
-                                class="flex gap-4"
-                                @click="linkMap(map.gmap)"
-                            >
+                            <div class="flex gap-4" @click="linkMap(map.gmap)">
                                 <box-icon
                                     name="map"
                                     type="solid"
@@ -203,7 +220,8 @@
                         <td class="px-6 py-4">
                             {{ moment(map.created_at).format("L") }}
                         </td>
-                        <td class="flex px-6 py-4">
+                        <td class="flex px-6 py-4"
+                        >
                             <div
                                 class="flex justify-end gap-4 pr-2"
                                 @click="editMap(map.id)"
@@ -265,6 +283,9 @@ export default {
             mapList: "",
             typeList: "",
             moment: moment,
+            data: {
+                search: "",
+            },
         };
     },
     methods: {
@@ -288,13 +309,13 @@ export default {
                     console.log(err);
                 });
         },
-        editMap(id){
-            this.$router.push('/editMap/' + id)
+        editMap(id) {
+            this.$router.push("/editMap/" + id);
         },
-        detailMap(id){
-            this.$router.push('/mapDetail/' + id, "_blank");
+        detailMap(id) {
+            window.open("/mapDetail/" + id, "_blank");
         },
-        linkMap(link){
+        linkMap(link) {
             window.open(link, "_blank");
         },
         delMap(id, index) {
@@ -320,6 +341,9 @@ export default {
                     Swal.fire("ลบข้อมูล!", "ลบข้อมูลเรียบร้อย", "success");
                 }
             });
+        },
+        getPic(pic) {
+            window.open("/storage/maps/" + pic, "_blank");
         },
     },
 };

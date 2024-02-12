@@ -19,6 +19,7 @@ import EditPost from "../components/EditPost .vue";
 import EditMap from "../components/EditMap.vue";
 import PostDetail from "../components/PostDetail.vue";
 import MapDetail from "../components/MapDetail.vue";
+import PostAll from "../components/PostAll.vue";
 
 import store from "../store";
 import AOS from 'aos'
@@ -44,6 +45,11 @@ const routes = [
         path: "/mapDetail/:id",
         name: "mapDetail",
         component: MapDetail,
+    },
+    {
+        path: "/postAll",
+        name: "postAll",
+        component: PostAll
     },
     {
         path: "/home",

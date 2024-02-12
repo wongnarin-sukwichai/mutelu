@@ -19,7 +19,7 @@ class ShowController extends Controller
         //
     }
 
-    public function showCollap() 
+    public function showCollap()
     {
         $data = Collap::all();
 
@@ -37,6 +37,14 @@ class ShowController extends Controller
     {
         $data = Map::inRandomOrder()->limit(3)->get();
 
+        return response()->json($data);
+    }
+
+    public function postAll()
+    {
+
+        $data = Post::orderBy('id', 'DESC')->paginate(12);
+        
         return response()->json($data);
     }
 

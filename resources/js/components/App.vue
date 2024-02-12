@@ -202,7 +202,7 @@ export default {
     mounted() {},
     data() {
         return {
-            banner: "img/banner/banner.jpg",
+            banner: "/img/banner/banner.jpg",
             user: "",
             show: false,
         };

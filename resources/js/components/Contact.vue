@@ -171,7 +171,6 @@ export default {
         async sendContact(id) {
             try {
                 await axios.put('/api/contact/' + id)
-                this.$router.push({ name: "dashboard" });
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
@@ -179,6 +178,7 @@ export default {
                     showConfirmButton: false,
                     timer: 1500,
                 });
+                this.getContact()
             } catch (err) {
                 Swal.fire({
                     icon: "error",

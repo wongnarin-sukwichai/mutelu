@@ -113,8 +113,7 @@ class MapController extends Controller
     {
         $data = Map::find($id);
 
-        if (Auth::user()->level == null && $data->uid != Auth::user()->id) 
-        {
+        if (Auth::user()->level == null && $data->uid != Auth::user()->id) {
             return response()->json([
                 'message' => 'ไม่มีสิทธิ์ลบข้อมูล กรุณาติดต่อเจ้าหน้าที่'
             ]);
@@ -126,7 +125,14 @@ class MapController extends Controller
 
     public function mapAll()
     {
-        $data = Map::all();
+        $data = Map::inRandomOrder()->paginate(12);
+
+        return response()->json($data);
+    }
+
+    public function mapSearch(Request $request)
+    {
+        $data = Map::where('title', 'LIKE', '%' . $request['text'] . '%')->paginate(12);
 
         return response()->json($data);
     }

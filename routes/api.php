@@ -52,4 +52,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('post', PostController::class);
     Route::resource('map', MapController::class);
     Route::get('mapAll', [MapController::class, 'mapAll']);
+    Route::post('mapSearch', [MapController::class, 'mapSearch']);
 });

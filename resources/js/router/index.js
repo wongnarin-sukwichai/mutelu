@@ -20,6 +20,8 @@ import EditMap from "../components/EditMap.vue";
 import PostDetail from "../components/PostDetail.vue";
 import MapDetail from "../components/MapDetail.vue";
 import PostAll from "../components/PostAll.vue";
+import MapAll from "../components/MapAll.vue";
+import MapSearch from "../components/mapSearch.vue";
 
 import store from "../store";
 import AOS from 'aos'
@@ -50,6 +52,22 @@ const routes = [
         path: "/postAll",
         name: "postAll",
         component: PostAll
+    },
+    {   
+        path: "/mapAll",
+        name: "mapAll",
+        component: MapAll,
+        meta: {
+            guard: "auth"
+        }
+    },
+    {   
+        path: "/mapSearch",
+        name: "mapSearch",
+        component: MapSearch,
+        meta: {
+            guard: "auth"
+        }
     },
     {
         path: "/home",

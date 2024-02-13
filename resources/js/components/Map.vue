@@ -54,24 +54,6 @@
             </div>
         </div>
 
-        <!-- Search -->
-        <div class="pb-4">
-            <form class="flex justify-end" @submit.prevent="search()">
-                <input
-                    type="text"
-                    class="p-2 mr-4 block w-56 rounded-md border py-1.5 text-gray-900 shadow-sm sm:text-sm hover:ring-2 hover:ring-blue-400 hover:ring-inset outline-0"
-                    required
-                    v-model="data.search"
-                />
-                <button
-                    type="submit"
-                    class="bg-sky-200 hover:bg-sky-300 shadow-lg rounded-md p-2 text-sm text-gray-700"
-                >
-                    ค้นหา
-                </button>
-            </form>
-        </div>
-
         <!-- component -->
         <div
             class="overflow-hidden rounded-lg border border-gray-200 shadow-lg"

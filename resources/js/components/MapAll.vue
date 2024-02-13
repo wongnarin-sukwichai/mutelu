@@ -8,9 +8,7 @@
                 data-aos-duration="2500"
             >
                 <div class="flex justify-between">
-                    <h2 class="text-3xl font-bold text-gray-900">
-                        เรื่องราวความเชื่อ/ภูมิปัญญา/อาถรรพ์
-                    </h2>
+                    <h2 class="text-3xl font-bold text-gray-900">แผนที่</h2>
                     <router-link
                         class="bg-gray-200 hover:bg-gray-300 shadow-lg rounded-md p-2 text-sm text-gray-700"
                         to="/"
@@ -22,7 +20,7 @@
                 <!-- hr -->
                 <div class="inline-flex items-center justify-center w-full">
                     <hr
-                        class="w-64 h-1 my-16 bg-gray-200 border-0 rounded dark:bg-gray-700"
+                        class="w-64 h-1 my-8 bg-gray-200 border-0 rounded dark:bg-gray-700"
                     />
                     <div
                         class="absolute px-4 -translate-x-1/2 bg-white left-1/2 dark:bg-gray-900"
@@ -35,22 +33,40 @@
                     </div>
                 </div>
 
+                <!-- Search -->
+                <div class="pb-4">
+                    <form class="flex justify-end" @submit.prevent="mapSearch()">
+                        <input
+                            type="text"
+                            class="p-2 mr-4 block w-56 rounded-md border py-1.5 text-gray-900 shadow-sm sm:text-sm hover:ring-2 hover:ring-blue-400 hover:ring-inset outline-0"
+                            required
+                            v-model="search"
+                        />
+                        <button
+                            type="submit"
+                            class="bg-sky-200 hover:bg-sky-300 shadow-lg rounded-md p-2 text-sm text-gray-700"
+                        >
+                            ค้นหา
+                        </button>
+                    </form>
+                </div>
+
                 <!-- Post -->
                 <div
                     class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-gray-200 lg:mx-0 lg:max-w-none lg:grid-cols-4"
                 >
                     <article
                         class="flex max-w-xl flex-col items-start justify-between"
-                        v-for="(post, index) in postList.data"
+                        v-for="(map, index) in mapList.data"
                         :key="index"
                     >
                         <div
                             class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64 hover:scale-105 shadow-lg"
                         >
                             <img
-                                :src="postPath + post.pic"
+                                :src="mapPath + map.pic"
                                 class="h-full w-full object-cover object-center cursor-pointer"
-                                @click="postDetail(post.id)"
+                                @click="mapDetail(map.id)"
                             />
                         </div>
                         <div class="flex items-center gap-x-4 text-xs mt-4">
@@ -58,10 +74,10 @@
                                 class="flex rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
                                 ><box-icon
                                     type="solid"
-                                    name="news"
+                                    name="map"
                                     color="#cbd5e1"
                                 ></box-icon
-                                ><font class="p-1.5">ข่าวสาร</font></span
+                                ><font class="p-1.5">แผนที่</font></span
                             >
                         </div>
                         <div class="group relative">
@@ -70,15 +86,15 @@
                             >
                                 <span
                                     class="cursor-pointer"
-                                    @click="postDetail(post.id)"
+                                    @click="mapDetail(map.id)"
                                 >
-                                    {{ post.title }}
+                                    {{ map.title }}
                                 </span>
                             </h3>
                             <p
                                 class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600 indent-4"
                             >
-                                {{ removeTag(post.detail) }}
+                                {{ removeTag(map.detail) }}
                             </p>
                         </div>
                         <div
@@ -92,11 +108,11 @@
                             <div class="text-sm leading-6">
                                 <p class="font-semibold text-gray-900">
                                     <span class="absolute inset-0"></span>
-                                    {{ post.created_by }}
+                                    {{ map.created_by }}
                                 </p>
                                 <p class="text-gray-400">
                                     {{
-                                        moment(post.created_at)
+                                        moment(map.created_at)
                                             .add(543, "years")
                                             .format("LL")
                                     }}
@@ -109,8 +125,8 @@
                 <!-- Pagination -->
                 <div class="flex justify-center py-16">
                     <TailwindPagination
-                        :data="postList"
-                        @pagination-change-page="getPost"
+                        :data="mapList"
+                        @pagination-change-page="getMap"
                     >
                     </TailwindPagination>
                 </div>
@@ -123,25 +139,27 @@
 import { TailwindPagination } from "laravel-vue-pagination";
 import moment from "moment"; //format date thai
 import "moment/dist/locale/th";
+import axios from "axios";
 moment.locale("th");
 
 export default {
     mounted() {
-        this.getPost();
+        this.getMap();
     },
     data() {
         return {
-            postPath: "/storage/posts/",
-            postList: [],
+            mapPath: "/storage/maps/",
+            mapList: [],
             moment: moment,
+            search: "",
         };
     },
     methods: {
-        getPost(page = 1) {
+        getMap(page = 1) {
             axios
-                .get("/api/postAll?page=" + page)
+                .get("/api/mapAll?page=" + page)
                 .then((response) => {
-                    this.postList = response.data;
+                    this.mapList = response.data;
                 })
                 .catch((err) => {
                     console.log(err);
@@ -150,8 +168,11 @@ export default {
         removeTag(str) {
             return str.replace(/&nbsp;|(<([^>]+)>)/g, "").substring(0, 200);
         },
-        postDetail(id) {
-            this.$router.push("/postDetail/" + id);
+        mapDetail(id) {
+            this.$router.push("/mapDetail/" + id);
+        },
+        mapSearch() {
+            this.$router.push({ name: 'mapSearch', params: { text: this.search } })
         },
     },
     components: {

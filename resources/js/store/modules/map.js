@@ -1,9 +1,10 @@
 import axios from "axios";
 
 export default {
-
     state() {
-
+        return {
+            map: null
+        }
     },
     getters: {
 
@@ -12,40 +13,33 @@ export default {
 
     },
     actions: {
-
         async storeMap({ dispatch }, payload) {
-
             try {
-                // await axios.get('/sanctum/csrf-cookie'); 
+                // await axios.get('/sanctum/csrf-cookie');
                 await axios
-                    .post('/api/map', payload) 
-                    .then((response) => {                     
-                        
-                    })
+                    .post("/api/map", payload)
+                    .then((response) => {})
                     .catch((err) => {
                         //console.log("ERROR::",err.response.headers)
-                        throw err.response
+                        throw err.response;
                     });
             } catch (e) {
-                throw e
+                throw e;
             }
         },
 
         async updateMap({ dispatch }, payload) {
-
             try {
-                // await axios.get('/sanctum/csrf-cookie'); 
+                // await axios.get('/sanctum/csrf-cookie');
                 await axios
-                    .put('/api/map/' + payload.id, payload) 
-                    .then((response) => {                     
-                    
-                    })
+                    .put("/api/map/" + payload.id, payload)
+                    .then((response) => {})
                     .catch((err) => {
                         //console.log("ERROR::",err.response.headers)
-                        throw err.response
+                        throw err.response;
                     });
             } catch (e) {
-                throw e
+                throw e;
             }
         },
     },

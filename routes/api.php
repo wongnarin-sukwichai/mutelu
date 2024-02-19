@@ -36,6 +36,7 @@ Route::get('postDetail/{id}', [ShowController::class, 'postDetail']);
 Route::get('mapDetail/{id}', [ShowController::class, 'mapDetail']);
 Route::resource('record', RecordController::class);
 Route::get('postAll', [ShowController::class, 'postAll']);
+Route::post('getRecord', [RecordController::class, 'getRecord']);
 
 Route::middleware('guest')->group(function () {
     Route::post('login', [AuthController::class, 'login']);

@@ -34,11 +34,13 @@ class RecordController extends Controller
         $request->validate([
             'id' => 'required',
             'number' => 'required',
-            'type' => 'required'
+            'type' => 'required',
+            'today' => 'required'
         ]);
 
         $data = new Record();
 
+        $data->date = $request['today'];
         $data->ref_id = $request['id'];
         $data->type = $request['type'];
         $data->number = $request['number'];
@@ -49,39 +51,38 @@ class RecordController extends Controller
         $data->save();
 
         return response()->json($data);
-
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
+    // public function show(string $id)
+    // {
 
-        $data = Record::where('ref_id', $id)->get();
+    //     $data = Record::where('ref_id', $id)->get();
 
-        $count_1 = Record::where('ref_id', $id)
-        ->where('type', 2)
-        ->select('number')
-        ->selectRaw('count(number) as qty')
-        ->groupBy('number')
-        ->orderBy('qty', 'DESC')
-        ->take(2)
-        ->get();
+    //     $count_1 = Record::where('ref_id', $id)
+    //     ->where('type', 2)
+    //     ->select('number')
+    //     ->selectRaw('count(number) as qty')
+    //     ->groupBy('number')
+    //     ->orderBy('qty', 'DESC')
+    //     ->take(2)
+    //     ->get();
 
-        $count_2 = Record::where('ref_id', $id)
-        ->where('type', 3)
-        ->select('number')
-        ->selectRaw('count(number) as qty')
-        ->groupBy('number')
-        ->orderBy('qty', 'DESC')
-        ->get();
+    //     $count_2 = Record::where('ref_id', $id)
+    //     ->where('type', 3)
+    //     ->select('number')
+    //     ->selectRaw('count(number) as qty')
+    //     ->groupBy('number')
+    //     ->orderBy('qty', 'DESC')
+    //     ->get();
 
-        return response()->json([
-            'count_1' => $count_1,
-            'count_2' => $count_2
-        ]);
-    }
+    //     return response()->json([
+    //         'count_1' => $count_1,
+    //         'count_2' => $count_2
+    //     ]);
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -105,5 +106,40 @@ class RecordController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getRecord(Request $request)
+    {
+    
+        $request->validate([
+            'id' => 'required',
+            'today' => 'required',
+            'start' => 'required',
+            'end' => 'required'
+        ]);
+
+        $count_1 = Record::whereBetween('date', [$request['start'], $request['end']])
+            ->where('ref_id', $request['id'])
+            ->where('type', 2)
+            ->select('number')
+            ->selectRaw('count(number) as qty')
+            ->groupBy('number')
+            ->orderBy('qty', 'DESC')
+            ->take(2)
+            ->get();
+
+        $count_2 = Record::whereBetween('date', [$request['start'], $request['end']])
+            ->where('ref_id', $request['id'])
+            ->where('type', 3)
+            ->select('number')
+            ->selectRaw('count(number) as qty')
+            ->groupBy('number')
+            ->orderBy('qty', 'DESC')
+            ->get();
+
+        return response()->json([
+            'count_1' => $count_1,
+            'count_2' => $count_2
+        ]);
     }
 }

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('records', function (Blueprint $table) {
             $table->id();
+            $table->date('date');
             $table->integer('ref_id')->comment('อ้าง ID Map บันทึกสถิติเลข');
             $table->integer('type');
             $table->integer('number');

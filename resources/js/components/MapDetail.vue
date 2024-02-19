@@ -40,9 +40,15 @@
                         <div
                             class="flex justify-center border border-2 border-dashed border-amber-300 hover:border-amber-400 py-12 mb-1 cursor-pointer"
                         >
-                            <h1 class="pr-8 text-6xl text-amber-400">{{ rec1 }}</h1>
-                            <h1 class="pr-8 text-6xl text-amber-400">{{ rec2 }}</h1>
-                            <h1 class="pr-8 text-6xl text-rose-400">{{ rec3 }}</h1>
+                            <h1 class="pr-8 text-6xl text-amber-400">
+                                {{ rec1 }}
+                            </h1>
+                            <h1 class="pr-8 text-6xl text-amber-400">
+                                {{ rec2 }}
+                            </h1>
+                            <h1 class="pr-8 text-6xl text-rose-400">
+                                {{ rec3 }}
+                            </h1>
                         </div>
                         <span class="flex justify-end text-gray-300 italic"
                             >** Click ที่กรอบเพื่อเพิ่มเลขเสี่ยงโชค</span
@@ -178,12 +184,15 @@ export default {
             dataNum: {
                 id: this.$route.params.id,
                 number: "",
-                type: ""
+                type: "",
+                today: moment().format("YYYY-MM-DD"),
+                start: "",
+                end: "",
             },
             recordList: "",
             rec1: "",
             rec2: "",
-            rec3: ""
+            rec3: "",
         };
     },
     methods: {
@@ -198,14 +207,20 @@ export default {
                 });
         },
         getRecord() {
-            axios.get('/api/record/' + this.$route.params.id).then((response) => {
-                this.recordList = response.data
-                this.rec1 = response.data.count_1[0].number
-                this.rec2 = response.data.count_1[1].number
-                this.rec3 = response.data.count_2[0].number
-            }) .catch((err) => {
-                console.log(err)
-            })
+            this.chkDay(this.dataNum.today);
+            axios
+                .post("/api/getRecord", this.dataNum)
+                .then((response) => {
+                    this.recordList = response.data;
+                    this.rec1 = response.data.count_1[0].number;
+                    if (response.data.count_1.length > 1) {
+                        this.rec2 = response.data.count_1[1].number;
+                    }
+                    this.rec3 = response.data.count_2[0].number;              
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
         showModal() {
             this.isModalShow = true;
@@ -214,12 +229,13 @@ export default {
             this.isModalShow = false;
         },
         async sendNum() {
-            var check = this.dataNum.number.length
+            var check = this.dataNum.number.length;
             if (check < 2 || check > 3) {
                 this.err = "ข้อมูลต้องไม่น้อยกว่า 2 หลัก และไม่เกิน 3 หลัก";
                 this.showErr = true;
             } else {
-                this.dataNum.type = check
+                this.dataNum.type = check;
+
                 try {
                     await this.$store.dispatch("storeRecord", this.dataNum);
                     Swal.fire({
@@ -230,22 +246,34 @@ export default {
                         timer: 1500,
                     });
                     this.isModalShow = false;
+                    this.getRecord();
                 } catch (err) {
-                    console.log(err)
+                    console.log(err);
                     Swal.fire({
-                        icon: 'error',
-                        title: 'ผิดพลาด',
-                        text: 'เพิ่มข้อมูลไม่ได้ กรุณาติดต่อเจ้าหน้าที่',
-                        timer: 1500
-                    })
+                        icon: "error",
+                        title: "ผิดพลาด",
+                        text: "เพิ่มข้อมูลไม่ได้ กรุณาติดต่อเจ้าหน้าที่",
+                        timer: 1500,
+                    });
                 }
             }
         },
-        onlyNumber($event) {                                                        //Check ข้อมูลต้องตัวเลขเท่านั้น
+        onlyNumber($event) {
+            //Check ข้อมูลต้องตัวเลขเท่านั้น
             let keyCode = $event.keyCode ? $event.keyCode : $event.which;
             if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
                 // 46 is dot
                 $event.preventDefault();
+            }
+        },
+        chkDay(day) {
+            var check = moment().format("YYYY-MM-15");
+            if (day <= check) {
+                this.dataNum.start = moment().format("YYYY-MM-01");
+                this.dataNum.end = check;
+            } else {
+                this.dataNum.start = moment().format("YYYY-MM-16");
+                this.dataNum.end = moment().format("YYYY-MM-31");
             }
         },
     },

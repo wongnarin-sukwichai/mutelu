@@ -1,6 +1,6 @@
 <template>
     <div
-        class="flex min-h-full items-center justify-center px-4 sm:px-6 lg:px-8"
+        class="flex min-h-full items-center justify-center px-4 sm:px-6 lg:px-8 pb-16"
     >
         <div class="w-full max-w-md space-y-8">
             <form class="mt-8 space-y-6" @submit.prevent="login()">

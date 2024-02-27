@@ -173,8 +173,8 @@
         </nav>
         <!-- Replace with your content -->
         <main>
-            <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                <img :src="banner" class="p-2 shadow-lg" />
+            <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8 ">
+                <img :src="banner" class="p-2 shadow-lg rounded-lg" />
             </div>
 
             <router-view v-slot="{ Component, route }">
@@ -186,10 +186,10 @@
             </router-view>
 
             <footer
-                class="text-white footer footer-center text-base-content border-t fixed h-auto bottom-0 w-screen bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500"
+                class="text-white footer footer-center text-base-content border-t h-auto bottom-0 w-screen bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500"
             >
                 <div class="py-4 text-sm text-center dark:text-gray-400">
-                    ©2023 ThayuTech.com
+                    ©2024 cmarehub.com
                 </div>
             </footer>
         </main>
@@ -202,7 +202,7 @@ export default {
     mounted() {},
     data() {
         return {
-            banner: "/img/banner/banner.jpg",
+            banner: "/img/banner/banner2.png",
             user: "",
             show: false,
         };
